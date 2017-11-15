@@ -29,7 +29,10 @@ var app = (function () {
 
             var socket = new SockJS('/stompendpoint');
             stompClient = Stomp.over(socket);
-            stompClient.connect({}, function (frame) {
+            //Configuration normal
+            //stompClient.connect({}, function (frame){
+            //Configuration rabbitMQ
+            stompClient.connect("dwmvuoia","sNnf7ADSvIHcU3CgfUlDK7OOBlIQrk_9", function (frame) {
 
                 console.log('Connected: ' + frame);
 
