@@ -29,26 +29,48 @@ var app = (function () {
 
             var socket = new SockJS('/stompendpoint');
             stompClient = Stomp.over(socket);
-            //Configuration normal
-            //stompClient.connect({}, function (frame){
-            //Configuration rabbitMQ
-            stompClient.connect("dwmvuoia","sNnf7ADSvIHcU3CgfUlDK7OOBlIQrk_9", function (frame) {
+            /*Configuration normal
+            stompClient.connect({}, function (frame) {
 
                 console.log('Connected: ' + frame);
-
-                //subscriptions
                 stompClient.subscribe('/topic/wupdate.' + gameid, function (eventbody) {
                     var new_word = eventbody.body;
                     $("#palabra").html("<h1>" + new_word + "</h1>");
                 });
-
                 stompClient.subscribe('/topic/winner.' + gameid, function (eventbody) {
                     var winner = eventbody.body;
                     $("#estado").text("Estado: Finalizado.");
                     $("#ganador").text("Ganador: " + winner);
                     alert("El jugador " + winner + " ha ganado.");
-                });
-            });
+                 });
+
+            });*/
+            //Configuration rabbitMQ
+            stompClient.connect("dwmvuoia","sNnf7ADSvIHcU3CgfUlDK7OOBlIQrk_9", 
+
+                function(frame){
+                    console.log('Connected: ' + frame);
+                    //subscriptions
+                    stompClient.subscribe('/topic/wupdate.' + gameid, function (eventbody) {
+                        var new_word = eventbody.body;
+                        $("#palabra").html("<h1>" + new_word + "</h1>");
+                    });
+
+                    stompClient.subscribe('/topic/winner.' + gameid, function (eventbody) {
+                        var winner = eventbody.body;
+                        $("#estado").text("Estado: Finalizado.");
+                        $("#ganador").text("Ganador: " + winner);
+                        alert("El jugador " + winner + " ha ganado.");
+                    });
+
+                }
+                , 
+                function(error){
+                    console.info("error"+error);
+                }
+
+            , "dwmvuoia");
+            
 
         },
         sendLetter: function () {
