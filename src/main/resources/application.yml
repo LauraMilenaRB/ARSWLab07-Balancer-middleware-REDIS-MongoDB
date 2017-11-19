@@ -1,5 +1,11 @@
 spring:
-    redis:
-        host: 127.0.0.1
-        port: 6379
-        #password:
+   data:
+     mongodb:
+       host: lab07.mlab.com
+       port: 37101
+       database: lab07
+       username: admin
+       password: admin
+ redis:
+   host: 127.0.0.1
+   port: 6379
