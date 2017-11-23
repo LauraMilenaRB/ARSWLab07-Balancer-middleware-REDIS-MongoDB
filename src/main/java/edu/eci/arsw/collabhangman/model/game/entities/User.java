@@ -5,6 +5,7 @@
  */
 package edu.eci.arsw.collabhangman.model.game.entities;
 
+import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -20,7 +21,9 @@ public class User {
     private String name;
     
     private String photoUrl;
-
+    
+    private List<Score> scores;
+    
     public User(int id, String name, String photoUrl) {
         this.id = id;
         this.name = name;
@@ -52,6 +55,14 @@ public class User {
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
+    }
+
+    public List<Score> getScores() {
+        return scores;
+    }
+
+    public void setScores(List<Score> scores) {
+        this.scores = scores;
     }
     
     
