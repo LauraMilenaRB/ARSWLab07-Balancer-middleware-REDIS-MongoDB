@@ -61,7 +61,7 @@ public class HangmanRedisGame extends HangmanGame{
         if (s.toLowerCase().equals(w)){
             template.opsForHash().put(id,"winner",playerName);
             template.opsForHash().put(id,"gamestatus",true);
-            template.opsForHash().put(id,"guessedword",w);
+            template.opsForHash().put(id,"guessedword",s.toLowerCase());
             return true;
         }
         return false;
@@ -69,7 +69,8 @@ public class HangmanRedisGame extends HangmanGame{
     
     @Override
     public boolean gameFinished(){
-        return (boolean)template.opsForHash().get(id, "gamestatus");
+        String bol=(String)template.opsForHash().get(id, "gamestatus");
+        return Boolean.valueOf(bol);
     }
     
     /**

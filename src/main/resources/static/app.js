@@ -4,15 +4,21 @@ var app = (function () {
 
     var stompClient = null;
     var gameid = 0;
-    var compare = function(firstScore, secondScore) {
-        var firstScoreD = new Date(firstScore.fecha);
-        var secondScoreD = new Date(secondScore.fecha);
-        return firstScoreD < secondScoreD;
+    var compare = function(firstS, secondS) {
+        var firstSD = new Date(firstS.fecha);
+        var secondSD = new Date(secondS.fecha);
+        return firstSD < secondSD;
     };
     
     var getLastScore = function(scores) {
         scores.sort(compare);
-        return scores.length > 0 ? scores[0] : "no hay puntajes";
+        var resp;
+        if(scores.length > 0){
+            resp= scores[0];
+        }else{
+            resp="no hay puntajes";
+        }
+        return resp;
     };
     return {
         loadWord: function () {
@@ -106,8 +112,6 @@ var app = (function () {
             var userid = $("#playerid").val();
             $.get("/users/" + userid, function (data) {
                 nombreJugador = data.name;
-                $("#userimg").attr("src", data.photoUrl);
-                $("#username").text("Nombre: " + nombreJugador);
                 var scr = getLastScore(data.scores);
                 var content = '<div><img src="' + data.photoUrl + '"/></div>' + "</div>" + "<div>" +nombreJugador + "</div>" + "<div> Ultimo Puntaje: " + scr.puntaje + " fecha: " + scr.fecha + "</div>";
                 document.getElementById("datosjugador").innerHTML = content;
