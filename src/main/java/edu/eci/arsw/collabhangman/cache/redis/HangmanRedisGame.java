@@ -30,7 +30,7 @@ public class HangmanRedisGame extends HangmanGame{
         template.opsForHash().put(this.id,"word",word);
         template.opsForHash().put(this.id,"guessedword",new String(super.guessedWord));
         template.opsForHash().put(this.id,"winner","");
-        template.opsForHash().put(this.id,"gamestatus",false);
+        template.opsForHash().put(this.id,"gamestatus","false");
     }
     
     public HangmanRedisGame(int id,StringRedisTemplate tmpl) {
@@ -89,7 +89,7 @@ public class HangmanRedisGame extends HangmanGame{
         String w=(String)template.opsForHash().get(id, "word");
         if (s.toLowerCase().equals(w)){
             template.opsForHash().put(id,"winner",playerName);
-            template.opsForHash().put(id,"gamestatus",true);
+            template.opsForHash().put(id,"gamestatus","true");
             template.opsForHash().put(id,"guessedword",s.toLowerCase());
             return true;
         }
