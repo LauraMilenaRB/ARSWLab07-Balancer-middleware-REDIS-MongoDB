@@ -29,7 +29,12 @@ public class User {
         this.name = name;
         this.photoUrl = photoUrl;
     }
-
+    public User(int id, String name, String photoUrl, List<Score> scores) {
+        this.id = id;
+        this.scores = scores;
+        this.name = name;
+        this.photoUrl = photoUrl;
+    }
     public User() {
     }
 

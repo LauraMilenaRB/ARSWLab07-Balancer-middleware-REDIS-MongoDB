@@ -2,7 +2,7 @@ spring:
    data:
      mongodb:
        host: ds113746.mlab.com
-       port: 37101
+       port: 13746
        database: lab07
        username: admin
        password: admin

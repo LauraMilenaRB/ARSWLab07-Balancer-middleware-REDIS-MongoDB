@@ -58,7 +58,9 @@ public class GameServices {
     public User loadUserData(int userid) throws GameServicesException{
         return usersRepository.findById(userid);
     }
-    
+    public List<User> score(int score){
+        return usersRepository.findByScore(score);
+    }
     
     public Set<User> getAllUsers(){
         return new HashSet<>();
@@ -145,9 +147,5 @@ public class GameServices {
     public String getGameWinner(int gameid) throws GameServicesException{
         return cache.getGame(gameid).getWinnerName();
     }
-    public List<User> score(int score){
-        return usersRepository.findByScore(score);
-    }
-  
     
 }
