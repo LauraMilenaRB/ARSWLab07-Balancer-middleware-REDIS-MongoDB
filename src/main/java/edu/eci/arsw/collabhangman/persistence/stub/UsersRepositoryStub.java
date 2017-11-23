@@ -18,8 +18,8 @@ import org.springframework.stereotype.Service;
  *
  * @author hcadavid
  */
-@Service
-public class UsersRepositoryStub implements UsersRepository{
+/*@Service*/
+public class UsersRepositoryStub /*implements UserRepository*/{
 
     private static Map<Integer,User> usersdb;
     
@@ -30,7 +30,6 @@ public class UsersRepositoryStub implements UsersRepository{
         usersdb.put(334455, new User(334455,"Pedro Rodriguez","http://www.your3dsource.com/images/facepic5.jpeg"));
     }
 
-    @Override
     public User getUserByID(Integer id) throws PersistenceException {
         if (!usersdb.containsKey(id)){
             throw new PersistenceException("User not found:"+id);
@@ -40,7 +39,6 @@ public class UsersRepositoryStub implements UsersRepository{
         }
     }
 
-    @Override
     public Set<User> getAllUsers() {
         return new LinkedHashSet<>(usersdb.values());
     }

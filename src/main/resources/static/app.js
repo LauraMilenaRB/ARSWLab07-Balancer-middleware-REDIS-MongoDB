@@ -4,7 +4,16 @@ var app = (function () {
 
     var stompClient = null;
     var gameid = 0;
-
+    var compare = function(firstScore, secondScore) {
+        var firstScoreD = new Date(firstScore.fecha);
+        var secondScoreD = new Date(secondScore.fecha);
+        return firstScoreD < secondScoreD;
+    };
+    
+    var getLastScore = function(scores) {
+        scores.sort(compare);
+        return scores.length > 0 ? scores[0] : "no hay puntajes";
+    };
     return {
         loadWord: function () {
 
@@ -99,6 +108,9 @@ var app = (function () {
                 nombreJugador = data.name;
                 $("#userimg").attr("src", data.photoUrl);
                 $("#username").text("Nombre: " + nombreJugador);
+                var scr = getLastScore(data.scores);
+                var content = '<div><img src="' + data.photoUrl + '"/></div>' + "</div>" + "<div>" +nombreJugador + "</div>" + "<div> Ultimo Puntaje: " + scr.puntaje + " fecha: " + scr.fecha + "</div>";
+                document.getElementById("datosjugador").innerHTML = content;
             }).fail(function () {
                 alert("User " + userid + " doesn't exist");
             }
@@ -122,6 +134,15 @@ var app = (function () {
             });
 
 
+        },
+        loadScores: function (){
+            jQuery.get("/users/scores/100", function (users){
+                users.map(function (usr){
+                    var content = "<div>" + usr.name + "</div>";
+                    $("#datospuntaje").append(content);
+                    });
+            }
+            );
         }
 
     };

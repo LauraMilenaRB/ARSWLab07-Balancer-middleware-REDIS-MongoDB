@@ -5,6 +5,7 @@
  */
 package edu.eci.arsw.collabhangman.cache.redis;
 
+import edu.eci.arsw.collabhangman.services.GameServicesException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -18,11 +19,12 @@ public class GameStateRedisCache {
     @Autowired
     private StringRedisTemplate template;
     
-    public void createGame(int id,String word) throws HagmanRedisGameException{
+    public void createGame(int id,String word) throws GameServicesException{
         
     };
 
-    public HangmanRedisGame getGame(int gameid) throws HagmanRedisGameException{
+    public HangmanRedisGame getGame(int gameid) throws GameServicesException{
+        if (!template.hasKey("gameid:"+gameid) )throw new GameServicesException("This current room does not exist");
         return new HangmanRedisGame(gameid,template);
     };
 }

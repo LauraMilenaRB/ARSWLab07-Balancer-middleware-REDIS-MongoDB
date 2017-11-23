@@ -45,4 +45,8 @@ public class UsersResourceController {
             return new ResponseEntity<>("There was an exception loading the user's data", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    @RequestMapping(method = RequestMethod.GET, path = "/scores/{score}")
+    public ResponseEntity<?> findByScore(@PathVariable int score) {
+        return new ResponseEntity<>(gameServices.score(score), HttpStatus.ACCEPTED);
+    }
 }

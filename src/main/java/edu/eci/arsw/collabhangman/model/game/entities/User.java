@@ -5,12 +5,16 @@
  */
 package edu.eci.arsw.collabhangman.model.game.entities;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 /**
  *
  * @author hcadavid
  */
+@Document(collection = "users")
 public class User {
-    
+    @Id
     private int id;
     
     private String name;

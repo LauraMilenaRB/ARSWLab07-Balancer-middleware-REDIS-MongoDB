@@ -1,0 +1,19 @@
+Las llaves para acceder a redis son:
+
+gameid:1
+gameid:1 word "happiness"
+gameid:1 guessedword
+gameid:1 gamestatus false
+gameid:1 winner ""
+
+gameid:2
+gameid:2 word "hola"
+gameid:2 guessedword "h__a"
+gameid:2 gamestatus false
+gameid:2 winner ""
+
+gameid:3
+gameid:3 word "computer"
+gameid:3 guessedword "c_mp___"
+gameid:3 gamestatus false
+gameid:3 winner ""

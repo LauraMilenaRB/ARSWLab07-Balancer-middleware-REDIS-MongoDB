@@ -18,7 +18,7 @@ public class HangmanRedisGame extends HangmanGame{
     public HangmanRedisGame(int id,String word, StringRedisTemplate tmpl) {
         super(word);
         template=tmpl;
-        this.id=String.valueOf(id);
+        this.id="gameid"+String.valueOf(id);
         template.opsForHash().put(this.id,"word",word);
         template.opsForHash().put(this.id,"guessedword",new String(super.guessedWord));
         template.opsForHash().put(this.id,"winner","");
@@ -44,6 +44,7 @@ public class HangmanRedisGame extends HangmanGame{
         String guessedWor=(String)template.opsForHash().get(id, "guessedword");
         String w=(String)template.opsForHash().get(id, "word");
         char[] guessedWordchar = guessedWor.toCharArray();
+        System.out.println(w);
         for (int i=0;i<w.length();i++){
             if (w.charAt(i)==l){
                 guessedWordchar[i]=l;
