@@ -1,8 +1,8 @@
 Las llaves para acceder a redis son:
 
 gameid:1
-gameid:1 word "happiness"
-gameid:1 guessedword
+gameid:1 word "happines"
+gameid:1 guessedword "h_______"
 gameid:1 gamestatus false
 gameid:1 winner ""
 
@@ -17,3 +17,10 @@ gameid:3 word "computer"
 gameid:3 guessedword "c_mp___"
 gameid:3 gamestatus false
 gameid:3 winner ""
+
+
+identificadores de Colleccionusers Mongo DB
+
+id:112233
+id:223344
+id:334455

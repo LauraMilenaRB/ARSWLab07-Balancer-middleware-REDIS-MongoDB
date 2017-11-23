@@ -84,6 +84,8 @@ public class HangmanRedisGame extends HangmanGame{
     
     @Override
     public String getCurrentGuessedWord(){
+        System.out.println((String)template.opsForHash().get(id, "guessedword"));
+        System.out.println((String)template.opsForHash().get(id, "word"));
         return (String)template.opsForHash().get(id, "guessedword");
     }    
     
