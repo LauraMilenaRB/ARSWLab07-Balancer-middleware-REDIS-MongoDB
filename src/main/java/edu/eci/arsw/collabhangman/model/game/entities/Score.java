@@ -17,7 +17,8 @@ public class Score {
         this.puntaje = val;
         this.fecha = date;
     }
-
+    public Score() {
+    }
     public int getPuntaje() {
         return puntaje;
     }

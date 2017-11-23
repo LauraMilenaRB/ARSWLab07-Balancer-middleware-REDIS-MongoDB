@@ -141,12 +141,12 @@ var app = (function () {
         },
         loadScores: function (){
             jQuery.get("/users/scores/100", function (users){
-                users.map(function (usr){
-                    var content = "<div>" + usr.name + "</div>";
-                    $("#datospuntaje").append(content);
+                var content=users.map(function (usr){
+                    alert(usr.name);
+                    return "<div>" + usr.name + "</div>";
                     });
-            }
-            );
+                $("#datospuntaje").append(content);
+            });
         }
 
     };
