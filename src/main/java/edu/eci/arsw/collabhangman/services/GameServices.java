@@ -18,10 +18,10 @@
 package edu.eci.arsw.collabhangman.services;
 
 import edu.eci.arsw.collabhangman.cache.redis.GameStateRedisCache;
+import edu.eci.arsw.collabhangman.cache.redis.HagmanRedisGameException;
 import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import edu.eci.arsw.collabhangman.cache.GameStateCache;
 import edu.eci.arsw.collabhangman.model.game.entities.User;
 import edu.eci.arsw.collabhangman.persistence.PersistenceException;
 import edu.eci.arsw.collabhangman.persistence.UsersRepository;
@@ -39,7 +39,7 @@ public class GameServices {
    
     //cache con los datos volatiles del juego
     @Autowired
-    GameStateCache cache;
+    GameStateRedisCache cache;
     
     //repositorios (capa de persistencia)
     @Autowired
@@ -71,8 +71,9 @@ public class GameServices {
      * Crea un nuevo juego, con una palabra creada al azar
      * @param gameid
      * @throws GameCreationException 
+     * @throws edu.eci.arsw.collabhangman.cache.redis.HagmanRedisGameException 
      */
-    public void createGame(int gameid) throws GameCreationException{
+    public void createGame(int gameid) throws GameCreationException, HagmanRedisGameException{
        List<String> words=wordsRepository.loadAllWords();
        String word=words.get(random.nextInt(words.size()));       
        cache.createGame(gameid, word);
@@ -89,8 +90,9 @@ public class GameServices {
      * se elige la letra 'i', el metodo retornara: '___i_id_d'
      * @throws GameServicesException si el identificador dado no corresponde
      * a una partida existente.
+     * @throws edu.eci.arsw.collabhangman.cache.redis.HagmanRedisGameException
      */
-    public String addLetterToGame(int gameid,char letter) throws GameServicesException{
+    public String addLetterToGame(int gameid,char letter) throws GameServicesException, HagmanRedisGameException{
         return cache.getGame(gameid).addLetter(letter);
     }
     
@@ -103,8 +105,9 @@ public class GameServices {
      * no descubiertos.
      * @throws GameServicesException si el identificador dado no corresponde
      * a una partida existente.
+     * @throws edu.eci.arsw.collabhangman.cache.redis.HagmanRedisGameException
      */
-    public String getCurrentGuessedWord(int gameid) throws GameServicesException{
+    public String getCurrentGuessedWord(int gameid) throws GameServicesException, HagmanRedisGameException{
         return cache.getGame(gameid).getCurrentGuessedWord();
     }
     
@@ -113,6 +116,7 @@ public class GameServices {
      * @param playerName el nombre del jugador que realiza el intento.
      * @param gameid el identificador del juego de la partida
      * @param word la palabra que el usuario su  
+     * @throws edu.eci.arsw.collabhangman.cache.redis.HagmanRedisGameException  
      * @pos Si el intento es exitoso, el estado del juego almacenado
      *      en el  cache se actualiza internamente: el nombre del ganador,
      *      y el estado del juego (finalizado).
@@ -120,7 +124,7 @@ public class GameServices {
      * @throws GameServicesException si el identificador dado no corresponde
      * a una partida existente.
      */
-    public boolean guessWord(String playerName,int gameid,String word) throws GameServicesException{
+    public boolean guessWord(String playerName,int gameid,String word) throws GameServicesException, HagmanRedisGameException{
         return cache.getGame(gameid).tryWord(playerName,word);
     }
     
@@ -131,20 +135,22 @@ public class GameServices {
      * @return true si el juego termino, false d.l.c.
      * @throws GameServicesException si el identificador dado no corresponde
      * a una partida existente.
+     * @throws edu.eci.arsw.collabhangman.cache.redis.HagmanRedisGameException
      */
-    public boolean isGameFinished(int gameid) throws GameServicesException{
+    public boolean isGameFinished(int gameid) throws GameServicesException, HagmanRedisGameException{
         return cache.getGame(gameid).gameFinished();
     }
     
     /**
      * Consulta el nombre del jugador declarado como ganador
+     * @throws edu.eci.arsw.collabhangman.cache.redis.HagmanRedisGameException
      * @pre isGameFinished==true
      * @param gameid
      * @return el nombre del jugador ganador.
      * @throws GameServicesException si el identificador dado no corresponde
      * a una partida existente.
      */
-    public String getGameWinner(int gameid) throws GameServicesException{
+    public String getGameWinner(int gameid) throws GameServicesException, HagmanRedisGameException{
         return cache.getGame(gameid).getWinnerName();
     }
     

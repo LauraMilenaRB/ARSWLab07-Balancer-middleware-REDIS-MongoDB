@@ -6,8 +6,6 @@
 package edu.eci.arsw.collabhangman.cache.redis;
 
 import edu.eci.arsw.collabhangman.model.game.HangmanGame;
-import edu.eci.arsw.collabhangman.services.GameCreationException;
-import edu.eci.arsw.collabhangman.services.GameServicesException;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 /**
@@ -52,7 +50,7 @@ public class HangmanRedisGame extends HangmanGame{
             }            
         }    
         String value=new String(guessedWordchar);
-        template.opsForHash().put(id,"guessedWord",value);
+        template.opsForHash().put(id,"guessedword",value);
         return value;
     }
     
@@ -61,7 +59,7 @@ public class HangmanRedisGame extends HangmanGame{
         String w=(String)template.opsForHash().get(id, "word");
         if (s.toLowerCase().equals(w)){
             template.opsForHash().put(id,"winner",playerName);
-            template.opsForHash().put(id,"gameFinished",true);
+            template.opsForHash().put(id,"gamestatus",true);
             template.opsForHash().put(id,"guessedword",w);
             return true;
         }
@@ -70,7 +68,7 @@ public class HangmanRedisGame extends HangmanGame{
     
     @Override
     public boolean gameFinished(){
-        return (boolean)template.opsForHash().get(id, "gameFinished");
+        return (boolean)template.opsForHash().get(id, "gamestatus");
     }
     
     /**
