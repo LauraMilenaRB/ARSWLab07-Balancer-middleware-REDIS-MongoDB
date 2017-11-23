@@ -16,6 +16,7 @@
  */
 package edu.eci.arsw.collabhangman.restcontrollers;
 
+import com.mongodb.util.JSON;
 import edu.eci.arsw.collabhangman.model.game.entities.HangmanLetterAttempt;
 import edu.eci.arsw.collabhangman.model.game.entities.HangmanWordAttempt;
 import edu.eci.arsw.collabhangman.services.GameServicesException;
@@ -67,6 +68,12 @@ public class HangmanGameResourcesController {
             String tmp = gameServices.addLetterToGame(gameid, hga.getLetter());
             LOG.log(Level.INFO, "Getting letter from client {0}:{1}", new Object[]{hga.getUsername(), hga.getLetter()});
             msmt.convertAndSend("/topic/wupdate." + gameid, tmp);
+            boolean win = gameServices.guessWord(hga.getUsername(), gameid, tmp);
+            LOG.log(Level.INFO, "Getting word from client {0}:{1}", new Object[]{hga.getUsername(), tmp});
+            if (win) {
+                msmt.convertAndSend("/topic/winner." + gameid, hga.getUsername());
+                msmt.convertAndSend("/topic/wupdate." + gameid, tmp);
+            }
             return new ResponseEntity<>(HttpStatus.CREATED);
         } catch (GameServicesException ex) {
             Logger.getLogger(HangmanGameResourcesController.class.getName()).log(Level.SEVERE, null, ex);

@@ -49,7 +49,7 @@ public class HangmanRedisGame extends HangmanGame{
      */
     @Override
     public String addLetter(char l){  
-        /*
+        /*Configuracion sin Transacciones*/
         String guessedWor=(String)template.opsForHash().get(id, "guessedword");
         String w=(String)template.opsForHash().get(id, "word");
         char[] guessedWordchar = guessedWor.toCharArray();
@@ -63,7 +63,9 @@ public class HangmanRedisGame extends HangmanGame{
         System.out.println(value);
         template.opsForHash().put(id,"guessedword",value);
         System.out.println((String)template.opsForHash().get(id, "guessedword"));
-        return (String)template.opsForHash().get(id, "guessedword");*/
+        return (String)template.opsForHash().get(id, "guessedword");
+        
+        /*Configuracion con Transacciones y Scrips LUA
         DefaultRedisScript<String> redisScript = new DefaultRedisScript<>();
         redisScript.setScriptSource(new ResourceScriptSource(new ClassPathResource("src/main/resources/scriptsLUA/addLetter.lua")));
         redisScript.setResultType(String.class);
@@ -79,6 +81,7 @@ public class HangmanRedisGame extends HangmanGame{
             }
         });
         return resp;
+        */
     }
     
     @Override
