@@ -6,6 +6,6 @@ spring:
        database: lab07
        username: admin
        password: admin
- redis:
+redis:
    host: 127.0.0.1
    port: 6379
