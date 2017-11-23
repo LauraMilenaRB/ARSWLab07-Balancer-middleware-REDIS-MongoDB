@@ -13,8 +13,8 @@ import org.springframework.data.redis.core.StringRedisTemplate;
  * @author laura
  */
 public class HangmanRedisGame extends HangmanGame{
-    private final String id;
-    private final StringRedisTemplate template; 
+    private String id;
+    private StringRedisTemplate template; 
     public HangmanRedisGame(int id,String word, StringRedisTemplate tmpl) {
         super(word);
         template=tmpl;
