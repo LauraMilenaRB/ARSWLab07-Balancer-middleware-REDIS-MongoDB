@@ -51,8 +51,9 @@ public class HangmanRedisGame extends HangmanGame{
             }            
         }    
         String value=new String(guessedWordchar);
+        System.out.println(value);
         template.opsForHash().put(id,"guessedword",value);
-        return value;
+        return (String)template.opsForHash().get(id, "guessedword");
     }
     
     @Override
