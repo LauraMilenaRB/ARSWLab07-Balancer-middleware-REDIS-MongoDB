@@ -1,3 +1,4 @@
+Correr redis con redis-server /home/ubuntu/redis-stable/redis.conf.
 Las llaves para acceder a redis son:
 
 gameid:1
@@ -19,7 +20,7 @@ gameid:3 gamestatus false
 gameid:3 winner ""
 
 
-identificadores de Colleccionusers Mongo DB
+identificadores de Colleccion users Mongo DB
 
 id:112233
 id:223344

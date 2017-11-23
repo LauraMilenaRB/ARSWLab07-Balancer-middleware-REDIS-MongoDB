@@ -6,7 +6,15 @@
 package edu.eci.arsw.collabhangman.cache.redis;
 
 import edu.eci.arsw.collabhangman.model.game.HangmanGame;
+import java.util.Collections;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.core.RedisOperations;
+import org.springframework.data.redis.core.SessionCallback;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
+import org.springframework.scripting.support.ResourceScriptSource;
+import static reactor.bus.selector.Selectors.T;
 
 /**
  *
@@ -41,6 +49,7 @@ public class HangmanRedisGame extends HangmanGame{
      */
     @Override
     public String addLetter(char l){  
+        /*
         String guessedWor=(String)template.opsForHash().get(id, "guessedword");
         String w=(String)template.opsForHash().get(id, "word");
         char[] guessedWordchar = guessedWor.toCharArray();
@@ -53,7 +62,23 @@ public class HangmanRedisGame extends HangmanGame{
         String value=new String(guessedWordchar);
         System.out.println(value);
         template.opsForHash().put(id,"guessedword",value);
-        return (String)template.opsForHash().get(id, "guessedword");
+        System.out.println((String)template.opsForHash().get(id, "guessedword"));
+        return (String)template.opsForHash().get(id, "guessedword");*/
+        DefaultRedisScript<String> redisScript = new DefaultRedisScript<>();
+        redisScript.setScriptSource(new ResourceScriptSource(new ClassPathResource("src/main/resources/scriptsLUA/addLetter.lua")));
+        redisScript.setResultType(String.class);
+        String resp=template.execute(new SessionCallback<String>() {
+            @SuppressWarnings("unchecked")
+            @Override
+            public <K, V> String execute(final RedisOperations<K, V> op) throws DataAccessException {
+                op.watch((K)id);
+                op.multi();
+                String res= op.execute(redisScript, Collections.singletonList((K) id), String.valueOf(l));
+                op.exec();
+                return res;
+            }
+        });
+        return resp;
     }
     
     @Override
@@ -85,8 +110,6 @@ public class HangmanRedisGame extends HangmanGame{
     
     @Override
     public String getCurrentGuessedWord(){
-        System.out.println((String)template.opsForHash().get(id, "guessedword"));
-        System.out.println((String)template.opsForHash().get(id, "word"));
         return (String)template.opsForHash().get(id, "guessedword");
     }    
     

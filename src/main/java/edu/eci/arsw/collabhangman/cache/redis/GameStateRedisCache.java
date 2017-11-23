@@ -24,7 +24,9 @@ public class GameStateRedisCache {
     };
 
     public HangmanRedisGame getGame(int gameid) throws GameServicesException{
-        if (!template.hasKey("gameid:"+gameid) )throw new GameServicesException("This current room does not exist");
+        if (!template.hasKey("gameid:"+String.valueOf(gameid))){
+            throw new GameServicesException("This current room does not exist");
+        }
         return new HangmanRedisGame(gameid,template);
     };
 }
