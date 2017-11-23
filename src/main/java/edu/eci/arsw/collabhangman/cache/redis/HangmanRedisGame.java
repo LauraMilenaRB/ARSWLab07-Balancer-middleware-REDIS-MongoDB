@@ -27,7 +27,7 @@ public class HangmanRedisGame extends HangmanGame{
     
     public HangmanRedisGame(int id,StringRedisTemplate tmpl) {
         super("");
-        this.id=String.valueOf(id);
+        this.id="gameid:"+String.valueOf(id);
         template=tmpl;
         
         
